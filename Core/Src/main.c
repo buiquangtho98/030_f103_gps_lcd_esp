@@ -53,6 +53,9 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 #define gps_uart &huart1 // gps_uart
 #define wifi_uart &huart2 // wifi_uart
+#define WIFI_SSID "Tho" // Your wifi SSID
+#define WIFI_PASSWORD "123456789" // Your wifi password
+#define API_KEY "123456789" // Your own Thingspeak API key
 char GGA[100];
 char RMC[100];
 GPSSTRUCT gpsData;
@@ -121,7 +124,7 @@ int main(void) {
 	lcd_init();
 	Ringbuf_init();
 	HAL_Delay(500);
-//	ESP_Init("Tuan", "tuankhi2016");
+	ESP_Init(WIFI_SSID, WIFI_PASSWORD);
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -228,7 +231,7 @@ int main(void) {
 		if (check1) {
 			Value_Buf[0] = gpsData.ggastruct.lcation.test1;
 			Value_Buf[1] = gpsData.ggastruct.lcation.test2;
-//			ESP_Send_Multi("W93N9RZLEHGDUYF1", 2, Value_Buf);
+			ESP_Send_Multi(API_KEY, 2, Value_Buf);
 		}
 		prev_atcnt = master_atcnt;
 	}
